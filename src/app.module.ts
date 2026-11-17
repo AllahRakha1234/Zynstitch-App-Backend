@@ -12,6 +12,8 @@ import configuration from './config/configuration.js';
 import { validateEnv } from './config/env.validation.js';
 import { CustomersModule } from './customers/customers.module.js';
 import { HealthController } from './health/health.controller.js';
+import { MeasurementsModule } from "./measurements/measurements.module.js";
+import { OrdersModule } from "./orders/orders.module.js";
 import { RedisModule } from './redis/redis.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
@@ -55,6 +57,8 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     RedisModule,
     AuthModule,
     CustomersModule,
+    OrdersModule,
+    MeasurementsModule,
   ],
   controllers: [HealthController],
   providers: [
