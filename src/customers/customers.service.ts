@@ -143,9 +143,18 @@ export class CustomersService {
   }
 
   private normalizeWritePayload(dto: UpdateCustomerDto) {
+    const cleanedPhone = dto.phone.replace(/\D/g, '');
+    let formattedPhone = dto.phone;
+
+    if (cleanedPhone.startsWith('0') && cleanedPhone.length === 11) {
+      formattedPhone = '92' + cleanedPhone.substring(1);
+    } else if (cleanedPhone.startsWith('92') && cleanedPhone.length === 12) {
+      formattedPhone = cleanedPhone;
+    }
+
     return {
       name: dto.name.trim(),
-      phone: dto.phone.trim(),
+      phone: formattedPhone,
       email: (dto.email ?? '').trim().toLowerCase(),
       address: dto.address.trim(),
     };

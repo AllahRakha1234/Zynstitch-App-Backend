@@ -30,7 +30,16 @@ export type ListCustomersQuery = z.infer<typeof listCustomersQuerySchema>;
 export const saveCustomerSchema = z.object({
   _id: objectIdSchema.optional(),
   name: z.string().trim().min(1, 'Name is required').max(120),
-  phone: z.string().trim().min(1, 'Phone is required').max(40),
+  phone: z
+    .string()
+    .trim()
+    .min(1, 'Phone is required')
+    .max(40)
+    .refine((val) => {
+      const cleaned = val.replace(/\D/g, '');
+      return (cleaned.startsWith('0') && cleaned.length === 11) ||
+             (cleaned.startsWith('92') && cleaned.length === 12);
+    }, 'Invalid phone number format. Must start with 0 (11 digits) or 92 (12 digits).'),
   email: optionalEmailSchema,
   address: z.string().trim().min(1, 'Address is required').max(500),
 });
